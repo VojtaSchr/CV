@@ -37,6 +37,7 @@ for _o in range(z):
 
 zz=int((z*z)/2)
 
+#funkce vykreslení křížku a kolečka
 def krizek ():
     #křížek
     print("Hráč 1 je na tahu:")
@@ -99,7 +100,6 @@ def kolecko ():
         left(9)
 
     return
-
 
 
 if z%2==0:
