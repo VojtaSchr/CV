@@ -21,8 +21,12 @@ def Kontrola(in_csv_k): #kontroluje výskyt chyb ve vstupním souboru
 def AvgW(in_csv_W):                                             #výpočet 7denního průměru
     with open(in_csv_W, encoding= "utf-8") as csvinfile:        #otevření vstupního souboru, nastavení utf-8
         reader = csv.reader(csvinfile, delimiter = ",")
+        len_csv=len(list(reader))
+        a=len_csv//7
+        prebytecne_dnyW=len_csv-(a*7)
         iw=0                                                    #založení veličiny pro počítadlo množství zpracovávaných záznamů v csv
         ow=0                                                    #založení veličiny pro počítadlo množství 7denních průměrů
+        soucet_pr_dnyW = float(0)                                
         jeden_tyden = float(0)                                  #nastavení veličiny pro součet průtoků za 7 dní na 0 a datový typ float 
         with open("vystup_7dni.csv",'w',newline="", encoding= "utf-8") as AvgW_Vystup:  #otevření souboru pro výstup
             csv.register_dialect("dialect1", delimiter=",")     #nastavení dialektu, údaje odděleny čárkami
@@ -37,6 +41,11 @@ def AvgW(in_csv_W):                                             #výpočet 7denn
                     jeden_tyden = 0                             #proměnná je po sedmi dnech vrácena na hodnotu nula
                     ow=ow+1                                     #počítadlo množství 7denních průměrů
                     writer.writerow(datumW +[prumer_tyden])     #napsání data a průměru do výstupního csv souboru
+                if iw>(len_csv-prebytecne_dnyW):
+                    soucet_pr_dnyW+= float(row[5])
+                if iw==len_csv:
+                    prumer_pr_dnyW = soucet_pr_dnyW/prebytecne_dnyW
+                    writer.writerow([prumer_pr_dnyW])
             print("Počet záznamů v csv: " + str(iw))            #kontrolní výpis do konzole
             print("Počet 7denních průměrů: " + str(ow))         #kontrolní výpis do konzole
     return()
