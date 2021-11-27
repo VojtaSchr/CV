@@ -1,0 +1,16 @@
+PROGRAM K VÝPOČTU 7DENNÍCH A ROČNÍCH PRŮMĚRŮ VÝPOČTŮ
+
+POPIS:
+Program umožňuje spočítat 7denní a roční průměry z dat ve formátu .csv (nelze zaručit kompatibilitu s jinými daty než od ČHMU).
+Data vstupují do programu jako soubor .csv pojmenovaný vstup (vstup.csv).
+Výstupem jsou dva .csv soubory a to: vystup_7dni.csv a vystup_rok.csv
+Program také zobrazuje maximální a minimální průtok a to do konzole(terminal).
+
+Soubor vystup_7dni.csv obsahuje data ve stejném formátu jako jsou vstupní data od ČHMU.
+Na každém řádku je vyjma sedmidenního průměru i datum dne, kdy bylo uskutečněno první měření obsažené v daném průměru.
+
+Soubor vystup_rok.csv také obsahuje data ve stejném formátu jako jsou vstupní data od ČHMU.
+Na každém řádku je také vyjma ročního(365dní) průměru i datum dne, kdy bylo uskutečněno první měření obsažené v daném průměru.
+
+V konzoli se zobrazí počet záznamů o průtoku 
+    

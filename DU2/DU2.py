@@ -37,7 +37,7 @@ def AvgW(in_csv_W):                                             #výpočet 7denn
                     jeden_tyden = 0                             #proměnná je po sedmi dnech vrácena na hodnotu nula
                     ow=ow+1                                     #počítadlo množství 7denních průměrů
                     writer.writerow(datumW +[prumer_tyden])     #napsání data a průměru do výstupního csv souboru
-            print("Počet záznamů v csv: " + str(iw))            #kontrolní výpis do konzole
+            print("Počet záznamů v csv (ve výpočtu týdenního průměru): " + str(iw))            #kontrolní výpis do konzole
             print("Počet 7denních průměrů: " + str(ow))         #kontrolní výpis do konzole
     return()
 
@@ -60,8 +60,8 @@ def AvgY(in_csv_Y):                                             #výpočet ročn
                     jeden_rok = 0                               #proměnná je po 365 dnech vrácena na hodnotu nula
                     oy=oy+1                                     #počítadlo množství ročních průměrů
                     writer.writerow(datumY+[prumer_rok])        #napsání data a průměru do výstupního csv souboru
-            print("Počet záznamů v csv: "+ str(iy))             #kontrolní výpis do konzole
-            print("Počet 7denních průměrů: " + str(oy))         #kontrolní výpis do konzole
+            print("Počet záznamů v csv (ve výpočtu ročního průměru): "+ str(iy))             #kontrolní výpis do konzole
+            print("Počet ročních průměrů: " + str(oy))         #kontrolní výpis do konzole
     return()
 
 def Max(in_csv_max):                                            #funkce pro nalezení maximální hodnoty průtoku
