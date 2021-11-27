@@ -41,28 +41,22 @@ def AvgW(in_csv_W):                                             #výpočet 7denn
             print("Počet 7denních průměrů: " + str(ow))         #kontrolní výpis do konzole
     return()
 
-def AvgY(in_csv_Y):
-    with open(in_csv_Y, encoding= "utf-8") as csvinfile:
+def AvgY(in_csv_Y):                                             #výpočet ročního průměru
+    with open(in_csv_Y, encoding= "utf-8") as csvinfile:        #otevření vstupního souboru, nastavení utf-8
         reader = csv.reader(csvinfile, delimiter = ",")
-        iy=0
-        oy=0
-        py=0
-        jeden_rok = float(0)
-        with open("vystup_rok.csv",'w',newline="", encoding= "utf-8") as AvgY_Vystup:
-            csv.register_dialect("dialect1", delimiter=",")
-            writer = csv.writer(AvgY_Vystup, dialect="dialect1")
-            for row in reader:
-                iy=iy+1
-                jeden_rok += float(row[5])
-                if iy%365==1:
-                    datumY = ([row[0]] + [row[1]] + [row[2]] + [row[3]] + [row [4]])
-                    py=0
-                if iy%1460==0:
-                    py=1
-                if iy%(365+py)==0:
-                    if iy%4==0:
-                        py=1
-                    prumer_rok = round(jeden_rok/(365+py), 4)
+        iy=0                                                    #založení veličiny pro počítadlo množství zpracovávaných záznamů v csv
+        oy=0                                                    #založení veličiny pro počítadlo množství ročních průměrů
+        jeden_rok = float(0)                                    #nastavení veličiny pro součet průtoků za 365 dní na 0 a datový typ float
+        with open("vystup_rok.csv",'w',newline="", encoding= "utf-8") as AvgY_Vystup:   #otevření souboru pro výstup
+            csv.register_dialect("dialect1", delimiter=",")     #nastavení dialektu, údaje odděleny čárkami
+            writer = csv.writer(AvgY_Vystup, dialect="dialect1")#proměnná writer pro zápis do souboru výstupu
+            for row in reader:                                  #cyklus s počtem opakování rovným počtu řádků v csv souboru
+                iy=iy+1                                         #počítadlo množství zpracovávaných záznamů v csv
+                jeden_rok += float(row[5])                      #proměnná do které se vždy posčítá 365dní
+                if iy%365==1:                                   #první den 365denního cyklu
+                    datumY = ([row[0]] + [row[1]] + [row[2]] + [row[3]] + [row [4]])   #proměnná s datumem prvního měření 7denního cyklu
+                if iy%365==0:                                   #poslední den 365denního cyklu
+                    prumer_rok = round(jeden_rok/365, 4)        #výpočet průměrné hodnoty za 365 dní
                     jeden_rok = 0                               #proměnná je po 365 dnech vrácena na hodnotu nula
                     oy=oy+1                                     #počítadlo množství ročních průměrů
                     writer.writerow(datumY+[prumer_rok])        #napsání data a průměru do výstupního csv souboru
@@ -70,30 +64,30 @@ def AvgY(in_csv_Y):
             print("Počet 7denních průměrů: " + str(oy))         #kontrolní výpis do konzole
     return()
 
-def Max(in_csv_max):
-    with open(in_csv_max, encoding= "utf-8") as csvinfile:
+def Max(in_csv_max):                                            #funkce pro nalezení maximální hodnoty průtoku
+    with open(in_csv_max, encoding= "utf-8") as csvinfile:      #otevření vstupního souboru, nastavení utf-8
         reader = csv.reader(csvinfile, delimiter = ",")
-        max=float(0)
-        for row in reader:
-            if float(row[5])>max:
-                max=float(row[5])
-                datum_rok = row[2]
-                datum_mesic = row[3]
-                datum_den = row[4]
-        print("Největší hodnota průtoku je: "+ str(max) + " a došlo k ní: " + str(datum_den) + "." + str(datum_mesic) + "." + str(datum_rok)) 
+        max=float(0)                                            #nastavení proměnné max na float
+        for row in reader:                                      #cyklus s počtem opakování rovným počtu řádků v csv souboru
+            if float(row[5])>max:                               #pokud je hodnota průtoku větší než dosud nejvyšší hodnot
+                max=float(row[5])                                   #tak je dosut nejvyšší hodnota nahrazena touto hodnotou průtoku
+                datum_rok = row[2]                              #rok nejvyššího průtoku
+                datum_mesic = row[3]                            #měsíc nejvyššího průtoku
+                datum_den = row[4]                              #den nejvyššího průtoku
+        print("Největší hodnota průtoku je: "+ str(max) + " a došlo k ní: " + str(datum_den) + "." + str(datum_mesic) + "." + str(datum_rok)) #vypsání do konzole
     return()
 
-def Min(in_csv_min):
-    with open(in_csv_min, encoding= "utf-8") as csvinfile:
+def Min(in_csv_min):                                            #funkce pro nalezení minimální hodnoty průtoku
+    with open(in_csv_min, encoding= "utf-8") as csvinfile:      #otevření vstupního souboru, nastavení utf-8
         reader = csv.reader(csvinfile, delimiter = ",")
-        min=float(1000)
-        for row in reader:
-            if float(row[5])<min:
-                min=float(row[5])
-                datum_rok = row[2]
-                datum_mesic = row[3]
-                datum_den = row[4]
-        print("Nejmenší hodnota průtoku je: "+ str(min) + " a došlo k ní: " + str(datum_den) + "." + str(datum_mesic) + "." + str(datum_rok)) 
+        min=float(1000)                                         #nastavení proměnné min na float
+        for row in reader:                                      #cyklus s počtem opakování rovným počtu řádků v csv souboru
+            if float(row[5])<min:                               #pokud je hodnota průtoku větší než dosud nejvyšší hodnot
+                min=float(row[5])                                   #tak je dosut nejvyšší hodnota nahrazena touto hodnotou průtoku
+                datum_rok = row[2]                              #rok nejvyššího průtoku
+                datum_mesic = row[3]                            #měsíc nejvyššího průtoku
+                datum_den = row[4]                              #den nejvyššího průtoku
+        print("Nejmenší hodnota průtoku je: "+ str(min) + " a došlo k ní: " + str(datum_den) + "." + str(datum_mesic) + "." + str(datum_rok)) #vypsání do konzole
     return()
 
 Kontrola("vstup.csv")
