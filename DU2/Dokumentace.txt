@@ -12,5 +12,7 @@ Na každém řádku je vyjma sedmidenního průměru i datum dne, kdy bylo uskut
 Soubor vystup_rok.csv také obsahuje data ve stejném formátu jako jsou vstupní data od ČHMU.
 Na každém řádku je také vyjma ročního(365dní) průměru i datum dne, kdy bylo uskutečněno první měření obsažené v daném průměru.
 
-V konzoli se zobrazí počet záznamů o průtoku 
+V konzoli se zobrazí počet záznamů o průtoku který se zpracoval funkcí pro výpočet 7denních průměrů a počet 7denních průměrů.
+Také počet záznamů o průtoku který se zpracoval funkcí pro výpočet ročních průměrů a počet ročních průměrů.
+A vypíše se maximální a minimální průtok a datum kdy jich bylo dosaženo.
     
