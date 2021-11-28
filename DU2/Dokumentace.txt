@@ -6,6 +6,11 @@ Data vstupují do programu jako soubor .csv pojmenovaný vstup (vstup.csv).
 Výstupem jsou dva .csv soubory a to: vystup_7dni.csv a vystup_rok.csv
 Program také zobrazuje maximální a minimální průtok a to do konzole(terminal).
 
+Na začátek program zkontroluje vložená data. V případě, že odhalí problém, vypíše chybu do konzole.
+
+Vstupní i výstupní data v csv souboru mají strukturu:
+Databázové číslo, typ dat (QD = průměrné denní průtoky), rok měření, měsíc měření, den měření, průměrný denní průtok (m3/s).
+
 Soubor vystup_7dni.csv obsahuje data ve stejném formátu jako jsou vstupní data od ČHMU.
 Na každém řádku je vyjma sedmidenního průměru i datum dne, kdy bylo uskutečněno první měření obsažené v daném průměru.
 

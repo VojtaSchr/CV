@@ -1,10 +1,10 @@
 import csv
 from os import execlp, write
 
-def Kontrola(in_csv_k): #kontroluje výskyt chyb ve vstupním souboru
+def Kontrola(in_csv_k):                                         #kontroluje výskyt chyb ve vstupním souboru
     try:
         with open(in_csv_k, encoding= "utf-8") as csvinfile:    #otevře vstupní soubor
-            reader = csv.reader(csvinfile, delimiter = ",")
+            reader = csv.reader(csvinfile, delimiter = ",")     #nastavení reader
             it=0                                                #proměnná počítající řádky pro ValueError
             for row in reader:                                  #cyklus s počtem opakování rovným počtu řádků v csv souboru
                 it=it+1                                         #hodnota proměnné počítající řádky se zvýší jedna 
@@ -20,7 +20,7 @@ def Kontrola(in_csv_k): #kontroluje výskyt chyb ve vstupním souboru
 
 def AvgW(in_csv_W):                                             #výpočet 7denního průměru
     with open(in_csv_W, encoding= "utf-8") as csvinfile:        #otevření vstupního souboru, nastavení utf-8
-        reader = csv.reader(csvinfile, delimiter = ",")
+        reader = csv.reader(csvinfile, delimiter = ",")         #nastavení reader
         iw=0                                                    #založení veličiny pro počítadlo množství zpracovávaných záznamů v csv
         ow=0                                                    #založení veličiny pro počítadlo množství 7denních průměrů                              
         jeden_tyden = float(0)                                  #nastavení veličiny pro součet průtoků za 7 dní na 0 a datový typ float 
@@ -43,7 +43,7 @@ def AvgW(in_csv_W):                                             #výpočet 7denn
 
 def AvgY(in_csv_Y):                                             #výpočet ročního průměru
     with open(in_csv_Y, encoding= "utf-8") as csvinfile:        #otevření vstupního souboru, nastavení utf-8
-        reader = csv.reader(csvinfile, delimiter = ",")
+        reader = csv.reader(csvinfile, delimiter = ",")         #nastavení reader
         iy=0                                                    #založení veličiny pro počítadlo množství zpracovávaných záznamů v csv
         oy=0                                                    #založení veličiny pro počítadlo množství ročních průměrů
         jeden_rok = float(0)                                    #nastavení veličiny pro součet průtoků za 365 dní na 0 a datový typ float
@@ -66,7 +66,7 @@ def AvgY(in_csv_Y):                                             #výpočet ročn
 
 def Max(in_csv_max):                                            #funkce pro nalezení maximální hodnoty průtoku
     with open(in_csv_max, encoding= "utf-8") as csvinfile:      #otevření vstupního souboru, nastavení utf-8
-        reader = csv.reader(csvinfile, delimiter = ",")
+        reader = csv.reader(csvinfile, delimiter = ",")         #nastavení reader
         max=float(0)                                            #nastavení proměnné max na float
         for row in reader:                                      #cyklus s počtem opakování rovným počtu řádků v csv souboru
             if float(row[5])>max:                               #pokud je hodnota průtoku větší než dosud nejvyšší hodnot
@@ -79,7 +79,7 @@ def Max(in_csv_max):                                            #funkce pro nale
 
 def Min(in_csv_min):                                            #funkce pro nalezení minimální hodnoty průtoku
     with open(in_csv_min, encoding= "utf-8") as csvinfile:      #otevření vstupního souboru, nastavení utf-8
-        reader = csv.reader(csvinfile, delimiter = ",")
+        reader = csv.reader(csvinfile, delimiter = ",")         #nastavení reader
         min=float(1000)                                         #nastavení proměnné min na float
         for row in reader:                                      #cyklus s počtem opakování rovným počtu řádků v csv souboru
             if float(row[5])<min:                               #pokud je hodnota průtoku větší než dosud nejvyšší hodnot
