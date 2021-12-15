@@ -1,6 +1,7 @@
 import json
 from pyproj import Transformer
 import math
+import statistics
 
 
 def nacti_data(adresy, kontejnery):                     #Funkce na načtení dat ze souboru typu geojson
@@ -66,7 +67,7 @@ def typy_adres():
                         stoper=1
         if stoper !=1:
             adresy_bez_kon.append(adresa_a1)
-    print("Množství adres závyslích na veřejných kontejnerech:"+str(len(adresy_bez_kon)))    #Vypsání množství adres 
+    print("Množství adres závyslých na veřejných kontejnerech:"+str(len(adresy_bez_kon)))    #Vypsání množství adres 
                                                                                              #bez privátního kontejneru
     print("Množství adres s privátním kontejnerem:"+str(len(adresy_s_kon)))     #Vypsání množství adres s privátním kontejnerem
     return(adresy_s_kon, adresy_bez_kon)
@@ -75,7 +76,7 @@ def vzdalenost(xa,ya,xb,yb):                            #Funkce pro výpočet vz
                                                         #xa..x-ová souřadnice adresy, ya..y-ová souřadnice adresy
                                                         #xb..x-ová souřadnice kontejneru, yb..y-ová souřadnice kontejneru
     vzdal=math.sqrt((xa-xb)**2+(ya-yb)**2)              #Vypočteno jako přepona pravoúhlého trojúhelniku, nahráno jako proměnná vzdal
-    print(vzdal)
+    #print(vzdal)
     return(vzdal)
 
 
@@ -84,3 +85,29 @@ address, bins = nacti_data("adresy.geojson", "kontejnery.geojson")
 verejne_kontejnery, privatni_kontejnery = typy_kontejneru(bins)
 adresy_s_kon, adresy_bez_kon = typy_adres()
 vzdalenost(5,7,2,3)
+
+list_vzdalenosti=[]
+
+for b1 in range (len(adresy_bez_kon)):                  #počet opakování rovný počtu adres domů bez privátního kontejneru
+    adresa_b1 = adresy_bez_kon[b1]                      #každé opakování se vytvoží proměná s jednou adresou
+    jtsk_sou = WGS_to_JTSK(*adresa_b1["geometry"]["coordinates"])   #provede se převod soužadnic adresy na jtsk
+    adresa_b1["geometry"]["coordinates"] = jtsk_sou     #převedené soužadnice se uloží do adresy, nahradí WGS souřadnice
+    min_vzdal=1000000                                   #Vytvožení neznámé pro vzdálenost jedné adresy od nejbližšího kontejneru
+    max_vzdal=0
+    for b2 in range (len(verejne_kontejnery)):
+        kontejner_b2 = verejne_kontejnery[b2]
+        vzdal=vzdalenost(*adresa_b1["geometry"]["coordinates"], *kontejner_b2["geometry"]["coordinates"])
+        if min_vzdal>vzdal:
+            min_vzdal=int(vzdal)
+    list_vzdalenosti.append(min_vzdal)
+    if max_vzdal<min_vzdal:
+        max_vzdal=min_vzdal
+        
+        #adresa_max_vzdal={"ulice":kontejner_b2["properties"]["addr:street"], "číslo":kontejner_b2["properties"]["addr:housenumber"]}
+
+avg_vzdal=sum(list_vzdalenosti)/len(list_vzdalenosti)
+print("Průměrná vzdálenost ke kontejneru je: "+str(avg_vzdal))
+print("Nejdéle ke kontejneru je z adresy "+" a to "+ str(max_vzdal))        
+median=statistics.median(list_vzdalenosti)
+print(median)
+print("done")  
