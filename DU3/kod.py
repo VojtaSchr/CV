@@ -3,7 +3,11 @@ from pyproj import Transformer
 import math
 import statistics
 
+wgs = Transformer.from_crs(4326, 5514, always_xy = True)    #Pro převod použijeme funkci Transformer
+
+print(" ")
 print("Program běží dokud nezahlásí: DONE")
+print(" ")
 
 def nacti_data(adresy, kontejnery):                     #Funkce na načtení dat ze souboru typu geojson
     try:
@@ -48,7 +52,6 @@ def typy_kontejneru(bins):                              #Funkce pro rozdělení 
     return(verejne_kontejnery,privatni_kontejnery)
 
 def WGS_to_JTSK(x,y):                                   #Funkce pro převod souřadnic z WGS84 do S-JTSK
-    wgs = Transformer.from_crs(4326, 5514, always_xy = True)    #Pro převod použijeme funkci Transformer
     jtsk = wgs.transform(x,y)                           #Souřadnice ve formátu jtsk se uloží do proměnné jtsk
     return(jtsk)
 
@@ -79,7 +82,7 @@ def typy_adres():                                       #Funkce třídící adre
             adresy_bez_kon.append(adresa_a1)            #...dojde k zapsání do seznamu adres nez privátního kontejneru
     #print("Množství adres závyslých na veřejných kontejnerech:"+str(len(adresy_bez_kon)))    #Možnost vypsání množství adres... 
                                                                                               #...bez privátního kontejneru
-    #print("Množství adres s privátním kontejnerem:"+str(len(adresy_s_kon)))     #Možnost vypsání množství adres s privátním kontejnerem
+    print("Množství adres s privátním kontejnerem:"+str(len(adresy_s_kon)))     #Možnost vypsání množství adres s privátním kontejnerem
     return(adresy_s_kon, adresy_bez_kon)
 
 def vzdalenost(xa,ya,xb,yb):                            #Funkce pro výpočet vzdálenosti dvou bodů
@@ -88,6 +91,7 @@ def vzdalenost(xa,ya,xb,yb):                            #Funkce pro výpočet vz
     vzdal=math.sqrt((xa-xb)**2+(ya-yb)**2)              #Vypočteno jako přepona pravoúhlého trojúhelniku, nahráno jako proměnná vzdal
     return(vzdal)
 
+#def geojson_vystup(adresa,kontejner):
 
 address, bins = nacti_data("adresy.geojson", "kontejnery.geojson")
 verejne_kontejnery, privatni_kontejnery = typy_kontejneru(bins)
@@ -112,16 +116,34 @@ for b1 in range (len(adresy_bez_kon)):                  #počet opakování rovn
                                                         #...mezi kontejnerem a adresou
         if min_vzdal>vzdal:                             #vyhledání nejbližšího kontejneru
             min_vzdal=int(vzdal)
+            Id_kontejner_pro_json = kontejner_b2["properties"]["ID"]
+    adresa_ulice_pro_json=adresa_b1["properties"]["addr:street"]
+    adresa_dc_pro_json=adresa_b1["properties"]["addr:housenumber"]
     if max_vzdal<min_vzdal:                             #vyhledání největší vzdálenosti adresy od kontejneru
         max_vzdal=min_vzdal
         adresa_max_vzdal= {adresa_b1["properties"]["addr:street"],adresa_b1["properties"]["addr:housenumber"]} #uložení...
                                                                         #...adresy s největší vzdáleností od kontejneru
     list_vzdalenosti.append(min_vzdal)                  #list se vzdálenostmi adres od nejbližších kontejnerů
 
+list_vzdalenosti_s_privat=[]
+for d in range(len(list_vzdalenosti)):
+    list_vzdalenosti_s_privat.append(list_vzdalenosti[d])             #list pro vzdálenosti včetně privátních kontejnerů
+
+for c in range(len(adresy_s_kon)):                     #za každou adresu s privátním kontejnerem se nahraje 0
+    list_vzdalenosti_s_privat.append(0)
+
 avg_vzdal=sum(list_vzdalenosti)/len(list_vzdalenosti)   #výpočet aritmetického průměru hodnot vzdáleností
 avg_vzdal_zaok=round(avg_vzdal, 1)                      #zapkrouhlení průměru na desetiny
+avg_vzdal_s_privat=sum(list_vzdalenosti_s_privat)/len(list_vzdalenosti_s_privat) #výpočet aritmetického průměru hodnot vzdáleností
+avg_vzdal_zaok_s_privat=round(avg_vzdal_s_privat, 1)    #zapkrouhlení průměru na desetiny
+
+print(" ")
 print("Průměrná vzdálenost ke kontejneru je: "+str(avg_vzdal_zaok)+" m.")
+print("Průměrná vzdálenost ke kontejneru včetně adres s privátním kontejnerem je: "+str(avg_vzdal_zaok_s_privat)+" m.")
 print("Nejdéle ke kontejneru je z adresy "+str(adresa_max_vzdal)+" a to "+ str(max_vzdal)+" m.")        
 median=statistics.median(list_vzdalenosti)              #hledání mediánu
+median_s_privat=statistics.median(list_vzdalenosti_s_privat)
 print("Median vzdáleností je: "+str(median)+" m.")
+print("Median vzdáleností včetně adres s privátním kontejnerem je: "+str(median_s_privat)+" m.")
+print(" ")
 print("DONE")  
