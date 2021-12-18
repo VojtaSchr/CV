@@ -12,8 +12,10 @@ Jako první program vypíše do konzele informace o vstupních datech, a to poč
 Následně běh programu trvá několik sekund, než vypíše do konzole získané údaje.
 První zobrazí průměr vzdáleností adres od nejbližšího kontejneru, poté adresu od které je nejbližší kontejner vzdálen nejvíce a jeho vzdálenost.
 Poslední zobrazený údaj je medián vzdáleností adres od nejbližšího kontejneru.
+
+Program vytvoří výsledky i s započítáním privátních kontejnerů.
+A vytvoří soubor typu geojson pojmenovaný adresy_kontejnery s adresami a ID nejbližšího kontejneru.
 Nakonec program vypíše DONE a skončí.
-Program také vytvoří výsledky i s započítáním privátních kontejnerů.
 
 Dodatečné možnosti:
 Program umožnuje zobrazit do konzole i další údaje a to:
